@@ -1,0 +1,163 @@
+<div class="main">
+    <div class="container"> <br><br>
+        <div class="row">
+            <div class="text-end">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Blogs
+                </button>
+            </div>
+
+            <div class="col-md-6" *ngFor="let b of Blogs,let i= index">
+                <!-- Button trigger modal -->
+                <div class="card">
+                    <div class="text-start">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                            (click)="editBlogs(b.Blogs_id)">
+                            <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+                        </button>
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-danger" (click)="deleteBlogs(b['Blogs_id'])"><i
+                                class="fa-solid fa-trash-can fa-2xl"></i></button>
+                    </div>
+                    <div class="card-body">
+                        <h4>{{b.Date | date}}</h4>
+                        <img [src]="b.Blogimage" alt=""> <br>
+                        <br>
+                        <h5 class="card-title"> <b>Title</b> :{{b.Title}}</h5> <br>
+                        <br>
+                        <p> <b>News</b> :{{b.News}}</p>
+
+                        <button class="btn btn-success" [routerLink]="['/Home/viewBlogs/',b.Blogs_id]"> Read
+                            More</button> <br>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add a New Blog</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="AddBlogsForm" (ngSubmit)="onFormSubmit()"
+                                class="row g-3 needs-validation" novalidate>
+
+                                <div>
+                                    <label>Blog Image:</label> <br>
+                                    <input type="file" (change)="onFileSelected($event, 'Blogimage')">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Title"> Title :</label>
+                                    <input type="text" name="Title" class="form-control" id="Title"
+                                        formControlName="Title" value="" placeholder="Enter Title " required>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Articles">Articles :</label>
+                                    <textarea type="text" name="Articles" class="form-control" id="Articles"
+                                        formControlName="Articles" value="" placeholder="Enter Articles" required>
+                                    </textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="News">News</label>
+                                    <textarea type="text" name="News" class="form-control" id="News"
+                                        formControlName="News" value="" placeholder="Enter News" required>
+                                    </textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Content">Content</label>
+                                    <textarea type="text" name="Content" class="form-control" id="Content"
+                                        formControlName="Content" value="" placeholder="Enter Content" required>
+                                    </textarea>
+                                </div>
+
+                                <div class="text-center">
+                                    <div class="col-12">
+                                        <button class="btn btn-success" style="color: white;" type="submit">
+                                            Add Blogs</button> <br> <br>
+                                    </div>
+                                </div>
+                                <br><br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <!-- Edit Modal  -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Update BLogs</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="EditBlogForm" (ngSubmit)="updateBlogs()" class="row g-3 needs-validation"
+                                novalidate>
+
+                                <div>
+                                    <label>Blog Image:</label> <br>
+                                    <input type="file" (change)="onChangefile($event, 'Blogimage')">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Title"> Title :</label>
+                                    <input type="text" name="Title" class="form-control" id="Title"
+                                        formControlName="Title" value="" placeholder="Enter Title " required>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Articles">Articles :</label>
+                                    <textarea type="text" name="Articles" class="form-control" id="Articles"
+                                        formControlName="Articles" value="" placeholder="Enter Articles" required>
+                                </textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="News">News</label>
+                                    <textarea type="text" name="News" class="form-control" id="News"
+                                        formControlName="News" value="" placeholder="Enter News" required>
+                                </textarea>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="Content">Content</label>
+                                    <textarea type="text" name="Content" class="form-control" id="Content"
+                                        formControlName="Content" value="" placeholder="Enter Content" required>
+                                </textarea>
+                                </div>
+
+                                <div class="text-center">
+                                    <div class="col-12">
+                                        <button class="btn btn-success" style="color: white;" type="submit">
+                                            Update Blogs</button> <br> <br>
+                                    </div>
+                                </div>
+                                <br><br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

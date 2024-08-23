@@ -1,0 +1,70 @@
+<div class="container">
+    <br>
+    <div class="text-center">
+        <h1 style="color: black;">All Enquiry</h1>
+    </div>
+    <br>
+    <div class="">
+        <table class="table  table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col"> <b>No.</b> </th>
+                    <th scope="col"> <b>Name</b> </th>
+                    <th scope="col"> <b>Email</b> </th>
+                    <th scope="col"> <b>Mobile No</b> </th>
+                    <th scope="col"> <b>Message</b> </th>
+                    <th scope="col"> <b>Time_Slot</b> </th>
+                    <th scope="col"> <b>Date</b> </th>
+                    <th scope="col"> <b>Status</b> </th>
+                    <th scope="col"> <b>Action</b> </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let u of enquiry | paginate: { itemsPerPage: 8, currentPage: pro }, let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{u.Name}}</td>
+                    <td>{{u.Email}}</td>
+                    <td>{{u.Mobileno}}</td>
+                    <td>{{u.Message}}</td>
+                    <td>{{u.Time_Slot}}</td>
+                    <td>{{u.Date | date:'d/MMM/yyyy'}}</td>
+                    <td>{{u.Status}}</td>
+                    <td> <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal2" (click)="editenquirys(u.enquiry_id)">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button></td>
+                    <td><button class="btn btn-danger" type="button" (click)="delete(u['enquiry_id'])" class="btn btn-danger"><i
+                                class="fa-regular fa-trash-can"></i></button></td>
+                </tr>
+                <div class="text-center">
+                    <pagination-controls (pageChange)=" pro = $event "></pagination-controls>
+                </div>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            *ngFor="let u of enquiry, let i =index">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT User </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="editenquiry" (submit)="Updateenquiry()">
+                            <div class="col-md-12">
+                                <label for="Status">Status:</label>
+                                <input type="text" name="Status" class="form-control" id="Status"
+                                    formControlName="Status" value="" placeholder="Enter Status" required>
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success">Update Enquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

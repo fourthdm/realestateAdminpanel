@@ -1,0 +1,324 @@
+<div class="container">
+    <br>
+    <div class="text-center">
+        <h1>Projects</h1>
+    </div>
+    <div class="text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD New Projects <i class="fa-regular fa-plus"></i>
+        </button>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6" *ngFor="let p of Products | paginate :{itemsPerPage :3 ,currentPage : pro},let i=index">
+            <div class="card">
+                <div class="card-body">
+                    <a type="button" (click)="editproduct(p.Project_id)" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal2">
+                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: green;"></i>
+                    </a>
+                    <span style="float:right;"> <a type="button" (click)="DeleteProduct(p['Project_id'])">
+                            <i class="fa-regular fa-trash-can fa-xl " style="color: red;"></i></a></span>
+                    <div>
+                        <br>
+                    </div>
+                    <br>
+                    <p [ngStyle]="getStyle(p)">
+                        {{ p.status == '1' ? '' : 'Out of Stock' }}
+                    </p>
+                    <img [src]="p.mainimage" alt="" [routerLink]="['/Home/viewproject',p.Project_id]"> <br> <br>
+                    <h4 class="card-title"><b>{{p.Project_Name}}</b></h4> <br> <br>
+                    <img [src]="p.floorplanimage" alt="">
+                    <!-- <img [src]="p.image1" alt="">
+                    <img [src]="p.image2" alt="">
+                    <img [src]="p.image3" alt=""> -->
+                    <h6><b>Price: </b> <b>&#8377; {{p.Price}}</b></h6>
+                    <p><b>Project Name:</b> {{p.Project_Name}}</p>
+                    <p><b>Location:</b> {{p.Location}}</p>
+                    <p><b>Status:</b> {{p.status}}</p>
+                    <p><b>Possession:</b> {{p.possession}}</p>
+                    <p><b>Typology:</b> {{p.typology}}</p>
+                    <p><b>Amenities:</b> {{p.Amenities}}</p>
+                    <p><b>Nearby:</b> {{p.nearby}}</p>
+                    <!-- <app-map></app-map> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <pagination-controls (pageChange)="pro = $event"></pagination-controls>
+        </div>
+    </div>
+
+    <!-- Modal For ADD Brands -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Project</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="ADDProduct" (ngSubmit)="onFormSubmit()" class="row g-3 needs-validation"
+                        novalidate>
+
+                        <!-- <div class="col-md-12">
+                            <label for="Project_Name">Product is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="status"
+                                    id="status" formControlName="status" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked" *ngIf="">Checked
+                                    Product is
+                                    Available or Not</label>
+                            </div>
+                        </div> -->
+                        <div class="col-md-12">
+                            <label for="status">Project is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="status" formControlName="status"
+                                    (change)="toggleStatus($event)">
+                                <label class="form-check-label" for="status">Checked Project is Ready to Move In or
+                                    Under Construction</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="Project_Name">Project Name:</label>
+                            <input type="text" name="Project_Name" class="form-control" id="Project_Name"
+                                formControlName="Project_Name" value="" placeholder="Enter Project Name " required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Location">Location :</label>
+                            <textarea type="text" name="Location" class="form-control" id="Location"
+                                formControlName="Location" value="" placeholder="Enter Location" required>
+                        </textarea>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="possession">Possession</label>
+                            <textarea type="text" name="possession" class="form-control" id="possession"
+                                formControlName="possession" value="" placeholder="Enter possession" required>
+                        </textarea>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Price">Price:</label>
+                            <input type="number" name="Price" class="form-control" id="Price" formControlName="Price"
+                                placeholder="Enter Price." required>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label for="typology">typology:</label>
+                            <input type="text" name="typology" class="form-control" id="typology"
+                                formControlName="typology" placeholder="Enter typology." required>
+                        </div>
+
+                        <!-- <div class="col-md-12">
+                            <label for="Amenities">Amenities:</label>
+                            <input type="text" name="Amenities" class="form-control" id="Amenities"
+                                formControlName="Amenities" placeholder="Enter Amenities." required>
+                        </div> -->
+
+
+                        <div class="col-md-10">
+                            <label for="Amenities">Amenities :</label>
+                            <select class="form-select form-control" aria-label="Default select example" id="Amenities"
+                                formControlName="Amenities">
+                                <option selected>Amenities</option>
+                                <option value="Gymnasium">Gymnasium</option>
+                                <option value="Indoor Games Area">Indoor Games Area</option>
+                                <option value="Cricket Net">Cricket Net</option>
+                                <option value="Jogging Path">Jogging Path</option>
+                                <option value="Outdoor Gym">Outdoor Gym</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="latitude">Latitude:</label>
+                            <input type="text" name="latitude" class="form-control" id="latitude"
+                                formControlName="latitude" placeholder="Enter latitude." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="longitude">Longitude:</label>
+                            <input type="text" name="longitude" class="form-control" id="longitude"
+                                formControlName="longitude" placeholder="Enter Longitude." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="nearby">Nearby:</label>
+                            <input type="text" name="nearby" class="form-control" id="nearby" formControlName="nearby"
+                                placeholder="Enter nearby" required>
+                        </div>
+
+                        <div>
+                            <label>floorplanimage:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'floorplanimage')">
+                        </div>
+
+                        <div>
+                            <label>Main Image:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'mainimage')">
+                        </div>
+
+                        <div>
+                            <label>Image1:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image1')">
+                        </div>
+
+                        <div>
+                            <label> Image2:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image2')">
+                        </div>
+
+                        <div>
+                            <label> Image3:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image3')">
+                        </div>
+
+                        <!-- <button (click)="()">add</button> -->
+                        <div class="text-center">
+                            <div class="col-12">
+                                <button class="btn btn-success" style="color: white;" type="submit">
+                                    Add Projects</button> <br> <br>
+                            </div>
+                        </div>
+                        <br><br>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Modal for Edit Brands -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT Brand</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="EditProductform" (ngSubmit)="updateProduct()" class="row g-3 needs-validation"
+                        novalidate>
+                        <!-- 
+                        <div class="col-md-12"> <label for="Project_Name">Product is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="status"
+                                    formControlName="status" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Checked Product is
+                                    Available or Not</label>
+                            </div>
+                        </div> -->
+
+
+                        <div class="col-md-12">
+                            <label for="status">Product is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="status" formControlName="status"
+                                    (change)="updateStatus($event)">
+                                <label class="form-check-label" for="status">Checked Product is Available or Not</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="Project_Name">Project Name:</label>
+                            <input type="text" name="Project_Name" class="form-control" id="Project_Name"
+                                formControlName="Project_Name" value="" placeholder="Enter Project Name " required>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label for="Location">Location :</label>
+                            <textarea type="text" name="Location" class="form-control" id="Location"
+                                formControlName="Location" value="" placeholder="Enter Location" required>
+                        </textarea>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="possession">possession</label>
+                            <textarea type="text" name="possession" class="form-control" id="possession"
+                                formControlName="possession" value="" placeholder="Enter possession" required>
+                        </textarea>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Price">Price:</label>
+                            <input type="number" name="Price" class="form-control" id="Price" formControlName="Price"
+                                placeholder="Enter Price." required>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label for="typology">typology:</label>
+                            <input type="text" name="typology" class="form-control" id="typology"
+                                formControlName="typology" placeholder="Enter typology." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="Amenities">Amenities:</label>
+                            <input type="text" name="Amenities" class="form-control" id="Amenities"
+                                formControlName="Amenities" placeholder="Enter Amenities." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="latitude">Latitude:</label>
+                            <input type="text" name="latitude" class="form-control" id="latitude"
+                                formControlName="latitude" placeholder="Enter latitude." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="longitude">Longitude:</label>
+                            <input type="text" name="longitude" class="form-control" id="longitude"
+                                formControlName="longitude" placeholder="Enter Longitude." required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="nearby">nearby:</label>
+                            <input type="text" name="nearby" class="form-control" id="nearby" formControlName="nearby"
+                                placeholder="Enter nearby" required>
+                        </div>
+
+
+
+                        <div>
+                            <label>Floorplan Image:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'floorplanimage')">
+                        </div>
+
+                        <div>
+                            <label>Main Image:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'mainimage')">
+                        </div>
+                        <div>
+                            <label>Image1:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image1')">
+                        </div>
+                        <div>
+                            <label> Image2:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image2')">
+                        </div>
+                        <div>
+                            <label> Image3:</label> <br>
+                            <input type="file" (change)="onFileSelected($event, 'image3')">
+                        </div>
+
+
+
+                        <!-- <button (click)="()">add</button> -->
+                        <div class="text-center">
+                            <div class="col-12">
+                                <button class="btn btn-success" style="color: white;" type="submit">
+                                    Update Products</button> <br> <br>
+                            </div>
+                        </div>
+                        <br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal end fro edit Brands -->
+</div>

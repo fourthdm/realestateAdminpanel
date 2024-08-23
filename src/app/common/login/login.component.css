@@ -1,0 +1,23 @@
+.main {
+    background-image: url('/assets/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.fa-cart-plus {
+    color: rgb(37, 150, 190);
+}
+
+.is-invalid {
+    border-color: red;
+}
+
+.error {
+    color: red;
+    font-size: 0.8em;
+}
+
+.card{
+    background-color: #f7f7f729;
+}

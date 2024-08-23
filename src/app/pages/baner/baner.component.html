@@ -1,0 +1,156 @@
+<div class="main"> <br><br>
+    <div class="container">
+
+        <div class="row">
+
+            <h2>Banner</h2>
+            <br>
+            <div class="text-end">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    ADD New Banner <i class="fa-regular fa-plus"></i>
+                </button>
+            </div>
+            <div class="col-md-6" *ngFor="let p of baner | paginate :{itemsPerPage :3 ,currentPage : pro},let i=index">
+                <div class="card">
+                    <div class="card-body">
+                        <a type="button" (click)="editbaner(p.Baner_id)" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal2">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color: green;"></i>
+                        </a>
+                        <span style="float:right;"> <a type="button" (click)="DeleteBaner(p['Baner_id'])">
+                                <i class="fa-regular fa-trash-can fa-xl " style="color: red;"></i></a></span>
+                        <div>
+                            <br>
+                        </div>
+                        <br>
+                        <p [ngStyle]="getStyle(p)">
+                            {{ p.status == '1' ? '' : 'Out' }}
+                        </p>
+
+                        <h3>Banner Image</h3> <img [src]="p.Bimage1" alt=""> <br> <br>
+                        <h3>Banner Image</h3> <img [src]="p.Bimage2" alt=""> <br> <br>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <pagination-controls (pageChange)="pro = $event"></pagination-controls>
+            </div>
+        </div>
+
+
+        <!-- Modal For ADD Brands -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">ADD New Banner</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="addformbaner" (ngSubmit)="onFormSubmit()" class="row g-3 needs-validation"
+                            novalidate>
+                            <!-- <div class="col-md-12">
+                            <label for="Project_Name">Product is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="status"
+                                    id="status" formControlName="status" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked" *ngIf="">Checked
+                                    Product is
+                                    Available or Not</label>
+                            </div>
+                        </div> -->
+                            <div class="col-md-12">
+                                <label for="status">Banner is Updated :</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="status" formControlName="status"
+                                        (change)="toggleStatus($event)">
+                                    <label class="form-check-label" for="status">Checked New Banner</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label>Banner Image 1:</label> <br>
+                                <input type="file" (change)="onFileSelected($event, 'Bimage1')">
+                            </div>
+
+                            <div>
+                                <label> Banner Image 2:</label> <br>
+                                <input type="file" (change)="onFileSelected($event, 'Bimage2')">
+                            </div>
+
+
+
+                            <!-- <button (click)="()">add</button> -->
+                            <div class="text-center">
+                                <div class="col-12">
+                                    <button class="btn btn-success" style="color: white;" type="submit">
+                                        Add Baner</button> <br> <br>
+                                </div>
+                            </div>
+                            <br><br>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+
+        <!-- Modal for Edit Brands -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">EDIT Banner</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="editformbaner" (ngSubmit)="Updatebanner()" class="row g-3 needs-validation"
+                            novalidate>
+
+                            <!-- <div class="col-md-12"> <label for="Project_Name">Product is in Stock :</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" value="" id="status"
+                                    formControlName="status" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Checked Product is
+                                    Available or Not</label>
+                            </div>
+                        </div> -->
+
+                            <div class="col-md-12">
+                                <label for="status">Banner is in Stock :</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="status" formControlName="status"
+                                        (change)="updateStatus($event)">
+                                    <label class="form-check-label" for="status">Checked Banner is Available or
+                                        Not</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label>Main Image:</label> <br>
+                                <input type="file" (change)="onFileChange($event, 'Bimage1')">
+                            </div>
+
+                            <div>
+                                <label> Image2:</label> <br>
+                                <input type="file" (change)="onFileChange($event, 'Bimage2')">
+                            </div>
+
+                            <!-- <button (click)="()">add</button> -->
+                            <div class="text-center">
+                                <div class="col-12">
+                                    <button class="btn btn-success" style="color: white;" type="submit">
+                                        Update Baner</button> <br> <br>
+                                </div>
+                            </div>
+                            <br><br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal end fro edit Brands -->
+    </div>
+</div>
